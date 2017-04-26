@@ -6,8 +6,6 @@ public class Instruction {
 	private String secondOperand = "";
 	private String thirdOperand = "";
 	
-	
-
 	public Instruction(String first, String second) {
 		this(first);
 		secondOperand = second;
