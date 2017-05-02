@@ -5,6 +5,5 @@ public enum InstructionStage {
 	InstructionDecode,
 	Execution,
 	Memory,
-	WriteBack,
-	Done
+	WriteBack
 }

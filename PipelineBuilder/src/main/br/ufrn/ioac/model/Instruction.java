@@ -1,12 +1,15 @@
 package br.ufrn.ioac.model;
 
-public class Instruction {
-	
+import br.ufrn.ioac.interfaces.Stageble;
+
+public class Instruction implements Stageble {
+
 	private String firstOperand = "";
 	private String secondOperand = "";
 	private String thirdOperand = "";
 	private InstructionStage stage = InstructionStage.InstructionFind;
-	
+
+
 	public Instruction(String first, String second) {
 		this(first);
 		secondOperand = second;
@@ -33,12 +36,14 @@ public class Instruction {
 		return thirdOperand;
 	}
 
-	public InstructionStage getStage() {
+	@Override
+	public InstructionStage currentStage() {
 		return stage;
 	}
 
-	public void stepForward() throws Exception {
-		switch(stage) {
+	@Override
+	public void nextStage() {
+		switch (stage) {
 		case InstructionFind:
 			stage = InstructionStage.InstructionDecode;
 			break;
@@ -52,11 +57,10 @@ public class Instruction {
 			stage = InstructionStage.WriteBack;
 			break;
 		case WriteBack:
-			stage = InstructionStage.Done;
 			break;
 		default:
-			throw new Exception("Estágio de instrução indefinida, não é possível avançar.");
+			// throw new Exception("Estágio de instrução indefinida, não é possível avançar.");
 		}
 	}
-	
+
 }
