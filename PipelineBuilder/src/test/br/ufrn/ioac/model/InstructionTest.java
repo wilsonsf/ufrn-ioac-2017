@@ -85,7 +85,9 @@ public class InstructionTest {
 
 	@Test
 	public void shouldLog() {
-		assertNotEquals("", instruction.log());
+		assertNotEquals(null, instruction.toString());
+		assertNotEquals("", instruction.toString());
+		assertEquals("add $s0, $s1, $s2", instruction.toString());
 	}
 
 }

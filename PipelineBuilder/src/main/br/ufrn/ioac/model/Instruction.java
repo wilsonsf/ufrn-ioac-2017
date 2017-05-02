@@ -90,8 +90,12 @@ public class Instruction implements Stageble {
 		}
 	}
 
-	public String log() {
-		return "";
-	}
+	@Override
+	public String toString() {
+		String output = name + " " + firstOperand
+				+ (secondOperand.isEmpty()? "" : ", " + secondOperand
+						+ (thirdOperand.isEmpty()? "" : ", " + thirdOperand));
 
+		return output;
+	}
 }
