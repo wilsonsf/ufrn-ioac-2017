@@ -1,27 +1,54 @@
 package br.ufrn.ioac.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import br.ufrn.ioac.interfaces.Stageble;
 
 public class Instruction implements Stageble {
 
+	private String name = "";
 	private String firstOperand = "";
 	private String secondOperand = "";
 	private String thirdOperand = "";
 	private InstructionStage stage = InstructionStage.InstructionFind;
 
+	static private Set<String> instructionNames = new HashSet<String>();
 
-	public Instruction(String first, String second) {
-		this(first);
-		secondOperand = second;
+	static {
+		// ADD, SUB, BEQ, BNE, LW, SW e JUMP
+		instructionNames.add("add"); // writeback delay
+		instructionNames.add("sub"); // writeback delay
+		instructionNames.add("beq"); // no label - jump to
+		instructionNames.add("bne"); // number of instruction
+		instructionNames.add("lw"); // memory delay
+		instructionNames.add("sw"); // no delay
+		instructionNames.add("j");  // no delay
 	}
 
+
+	public Instruction(String name, String first) {
+		this.name = name;
+		firstOperand = first;
+	}
+
+	@Deprecated
 	public Instruction(String first) {
 		firstOperand = first;
 	}
 
-	public Instruction(String first, String second, String third) {
-		this(first,second);
-		thirdOperand  = third;
+	public Instruction(String name, String first, String second) {
+		this(name,first);
+		secondOperand  = second;
+	}
+
+	public Instruction(String name, String first, String second, String third) {
+		this(name,first,second);
+		thirdOperand = third;
+	}
+
+	public String getInstructionName() {
+		return name;
 	}
 
 	public String getFirstOperand() {
@@ -61,6 +88,10 @@ public class Instruction implements Stageble {
 		default:
 			// throw new Exception("Estágio de instrução indefinida, não é possível avançar.");
 		}
+	}
+
+	public String log() {
+		return "";
 	}
 
 }
