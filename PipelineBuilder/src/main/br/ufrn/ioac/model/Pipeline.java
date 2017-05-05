@@ -81,4 +81,8 @@ public class Pipeline {
 		currentInstructionIndex++;
 	}
 
+	public final Integer getCurrentCycle() {
+		return Integer.valueOf(currentInstructionIndex);
+	}
+
 }

@@ -26,6 +26,20 @@ public class Instruction implements Stageble {
 		instructionNames.add("j");  // no delay
 	}
 
+	public Instruction(String[] parameters) {
+		switch (parameters.length) {
+		case 4:
+			thirdOperand = parameters[3];
+		case 3:
+			secondOperand = parameters[2];
+		case 2:
+			firstOperand = parameters[1];
+			name = parameters[0];
+			break;
+		default:
+			throw new ClassFormatError("Instruction: Número de parâmetros incorretos");
+		}
+	}
 
 	public Instruction(String name, String first) {
 		this.name = name;
