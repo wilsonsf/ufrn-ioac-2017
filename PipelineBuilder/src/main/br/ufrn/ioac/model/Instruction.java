@@ -23,7 +23,7 @@ public class Instruction implements Stageble {
 		instructionNames.add("bne"); // number of instruction
 		instructionNames.add("lw"); // memory delay
 		instructionNames.add("sw"); // no delay
-		instructionNames.add("j");  // no delay 	
+		instructionNames.add("j");  // no delay
 	}
 
 
