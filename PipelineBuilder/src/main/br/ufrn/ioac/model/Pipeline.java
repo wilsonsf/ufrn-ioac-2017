@@ -13,7 +13,6 @@ public class Pipeline {
 
 	private ArrayList<Instruction> originalInstructions = new ArrayList<Instruction>();
 	private LinkedList<Instruction> pipeline = new LinkedList<Instruction>();
-	private Instruction instruction;
 
 	private Integer currentInstructionIndex = 0;
 
@@ -24,9 +23,9 @@ public class Pipeline {
 	public String logState() {
 		return "IF:\t" + getIFLog() + "\n" +
 				"ID:\t" + getIDLog() + "\n" +
-				"EX:\t" + "0\n" +
-				"MEM:\t" + "0\n" +
-				"WB:\t" + "0\n";
+				"EX:\t" + getEXLog() + "\n" +
+				"MEM:\t" + getMEMLog() + "\n" +
+				"WB:\t" + getWBLog() + "\n";
 	}
 
 	private String getIFLog() {
@@ -45,8 +44,28 @@ public class Pipeline {
 		return pipeline.get(INSTRUCTION_DECODE_INDEX);
 	}
 
-	public Instruction getInstruction() {
-		return instruction;
+	private String getMEMLog() {
+		return pipeline.size() <= MEMORY_INDEX ? "0" : getMemoryInstruction().toString();
+	}
+
+	private Instruction getMemoryInstruction() {
+		return pipeline.get(MEMORY_INDEX);
+	}
+
+	private String getEXLog() {
+		return pipeline.size() <= EXECUTION_INDEX ? "0" : getExecutionInstruction().toString();
+	}
+
+	private Instruction getExecutionInstruction() {
+		return pipeline.get(EXECUTION_INDEX);
+	}
+
+	private String getWBLog() {
+		return pipeline.size() <= WRITEBACK_INDEX ? "0" : getWriteBackInstruction().toString();
+	}
+
+	private Instruction getWriteBackInstruction() {
+		return pipeline.get(WRITEBACK_INDEX);
 	}
 
 	public Integer countInstructions() {

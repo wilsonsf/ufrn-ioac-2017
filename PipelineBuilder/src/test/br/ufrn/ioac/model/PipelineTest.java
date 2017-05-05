@@ -62,12 +62,57 @@ public class PipelineTest {
 
 	}
 
+	@Test
+	public void shouldLogStateWithThreeInstructions(){
+		pipeline.add(addInstructionBuilder());
+		pipeline.add(subInstructionBuilder());
+		pipeline.add(jInstructionBuilder());
+
+		pipeline.advanceCycle();
+		pipeline.advanceCycle();
+		pipeline.advanceCycle();
+
+		String logState = "IF:\t" + "j 5\n" +
+				"ID:\t" + "sub $t0, $t1, $t2\n" +
+				"EX:\t" + "add $s0, $s1, $s2\n" +
+				"MEM:\t" + "0\n" +
+				"WB:\t" + "0\n";
+		assertEquals(logState, pipeline.logState());
+
+	}
+
+	@Test
+	public void shouldLogStateWithMaxInstructions(){
+		pipeline.add(addInstructionBuilder());
+		pipeline.add(subInstructionBuilder());
+		pipeline.add(jInstructionBuilder());
+		pipeline.add(new Instruction("beq","$s1","$s2","9"));
+		pipeline.add(new Instruction("sw", "$s1", "0($s3)"));
+
+		pipeline.advanceCycle();
+		pipeline.advanceCycle();
+		pipeline.advanceCycle();
+		pipeline.advanceCycle();
+		pipeline.advanceCycle();
+
+		String logState = "IF:\t" + "sw $s1, 0($s3)\n" +
+				"ID:\t" + "beq $s1, $s2, 9\n" +
+				"EX:\t" + "j 5\n" +
+				"MEM:\t" + "sub $t0, $t1, $t2\n" +
+				"WB:\t" + "add $s0, $s1, $s2\n";
+		assertEquals(logState, pipeline.logState());
+	}
+
 	private Instruction addInstructionBuilder() {
 		return new Instruction("add","$s0","$s1","$s2");
 	}
 
 	private Instruction subInstructionBuilder() {
 		return new Instruction("sub","$t0","$t1","$t2");
+	}
+
+	private Instruction jInstructionBuilder() {
+		return new Instruction("j", "5");
 	}
 
 }
