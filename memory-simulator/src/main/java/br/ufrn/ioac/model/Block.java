@@ -5,18 +5,45 @@ import java.util.List;
 
 public class Block {
 
-	List<Word> words = new ArrayList<Word>();
-	int size;
+	private List<Word> words = new ArrayList<Word>();
+	private int size;
+	private int address;
+	private Block originalBlock = null;
 
 	public Block(int size) {
 		this.size = size;
 	}
 
+	public Block(int size, int address){
+		this(size);
+		this.address = address;
+	}
+
 	@Deprecated
 	public void initialize(int blockNumber) {
 		for (int i = 0; i < size; i++) {
-			Word word = new Word(blockNumber + i, Integer.valueOf(blockNumber + i));
+			Word word = new Word(blockNumber + i, Integer.valueOf(0));
 			words.add(word);
 		}
+	}
+
+	public List<Word> getWords(){
+		return words;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public int getAddress() {
+		return address;
+	}
+
+	public void setOriginalBlock(Block block) {
+		originalBlock = block;
+	}
+
+	public void callBackUpdate(List<Word> words) {
+		originalBlock.callBackUpdate(this.words);
 	}
 }
