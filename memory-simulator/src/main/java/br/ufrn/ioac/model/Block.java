@@ -5,16 +5,17 @@ import java.util.List;
 
 public class Block {
 
-	private List<Word> words = new ArrayList<Word>();
+	private ArrayList<Word> words;
 	private int size;
-	private int address;
+	private Integer address;
 	private Block originalBlock = null;
 
 	private Block(int size) {
 		this.size = size;
+		words = new ArrayList<Word>(size);
 	}
 
-	public Block(int size, int address){
+	public Block(int size, Integer address){
 		this(size);
 		this.address = address;
 	}
@@ -49,5 +50,10 @@ public class Block {
 
 	public void callBackUpdate(List<Word> words) {
 		originalBlock.callBackUpdate(this.words);
+	}
+
+	public Word read(int address) {
+		int wordPos = Math.floorMod(address, size);
+		return words.get(wordPos);
 	}
 }

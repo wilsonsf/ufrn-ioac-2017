@@ -1,11 +1,10 @@
 package br.ufrn.ioac.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Memory {
 
-	protected List<Block> blocks = new ArrayList<>();
+	protected ArrayList<Block> blocks = new ArrayList<>();
 	protected int blockSize;
 	protected int size;
 
