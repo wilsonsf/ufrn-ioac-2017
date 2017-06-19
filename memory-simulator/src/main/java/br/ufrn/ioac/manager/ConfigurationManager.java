@@ -30,6 +30,7 @@ public class ConfigurationManager {
 			mappingStep();
 			substitutionPolicyStep();
 			writingPolicyStep();
+			System.out.println();
 
 		} catch (FileNotFoundException e) {
 			throw new ConfigurationFileException("Não achou o arquivo de configuração (config.txt) na pasta raiz.");

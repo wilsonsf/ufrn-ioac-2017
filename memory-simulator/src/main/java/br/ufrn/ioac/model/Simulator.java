@@ -27,6 +27,8 @@ public class Simulator {
 		this.mapping = mapping;
 		this.substitution = substitution;
 		this.writing = writing;
+
+		memory.initialize();
 	}
 
 	public String show() {
@@ -34,6 +36,8 @@ public class Simulator {
 		StringBuilder builder = new StringBuilder();
 		builder.append("CACHE L1\n");
 		builder.append(cache.show());
+		builder.append("MEMÓRIA PRINCIPAL\n");
+		builder.append(memory.show());
 
 		return builder.toString();
 	}

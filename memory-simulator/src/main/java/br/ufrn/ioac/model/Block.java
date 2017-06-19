@@ -10,7 +10,7 @@ public class Block {
 	private int address;
 	private Block originalBlock = null;
 
-	public Block(int size) {
+	private Block(int size) {
 		this.size = size;
 	}
 
@@ -22,7 +22,7 @@ public class Block {
 	@Deprecated
 	public void initialize(int blockNumber) {
 		for (int i = 0; i < size; i++) {
-			Word word = new Word(blockNumber + i, Integer.valueOf(0));
+			Word word = new Word((blockNumber*size) + i, Integer.valueOf(0));
 			words.add(word);
 		}
 	}
@@ -41,6 +41,10 @@ public class Block {
 
 	public void setOriginalBlock(Block block) {
 		originalBlock = block;
+	}
+
+	public Block getOriginalBlock() {
+		return originalBlock;
 	}
 
 	public void callBackUpdate(List<Word> words) {

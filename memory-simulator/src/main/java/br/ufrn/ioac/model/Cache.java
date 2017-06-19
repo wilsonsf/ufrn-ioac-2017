@@ -1,37 +1,30 @@
 package br.ufrn.ioac.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Cache {
-
-	List<Block> blocks;
-	private int size;
-	private int blockSize;
+public class Cache extends Memory {
 
 	public Cache(int size, int blockSize) {
-		this.size = size;
-		this.blockSize = blockSize;
-		blocks = new ArrayList<>();
+		super(size, blockSize);
 	}
 
+	@Override
 	@Deprecated
 	public void initialize() {
 		for (int blockNumber = 0; blockNumber < size; blockNumber++) {
-			Block block = new Block(blockSize);
+			Block block = new Block(blockSize, blockNumber);
 			blocks.add(block);
 		}
 	}
 
+	@Override
 	public String show() {
-		initialize();
 		StringBuilder builder = new StringBuilder();
 
-		builder.append("Bloco-Endereço-Conteúdo\n");
+		builder.append("Linha-Bloco-Endereço-Conteúdo\n");
 		for (Block block : blocks) {
 			for (Word word : block.getWords()) {
-				builder.append(block.getAddress() + "-"
-						+ word.getOriginalAddress() + "-" + word.getValue() + "\n");
+				builder.append(block.getAddress() + "-" +
+						block.getOriginalBlock().getAddress() + "-" +
+						word.getOriginalAddress() + "-" + word.getValue() + "\n");
 			}
 		}
 

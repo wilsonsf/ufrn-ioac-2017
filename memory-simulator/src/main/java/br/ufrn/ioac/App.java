@@ -25,7 +25,6 @@ public class App {
 				String address;
 
 				if (command.equalsIgnoreCase("show")) {
-					System.out.println("Vai mostrar!");
 					System.out.println(simulator.show());
 				} else if (command.equalsIgnoreCase("read")) {
 					if (entries.length > 1) {
