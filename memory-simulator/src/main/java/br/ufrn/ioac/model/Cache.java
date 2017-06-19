@@ -35,7 +35,7 @@ public class Cache extends Memory {
 
 	public boolean has(Integer address) {
 		Word word = read(address);
-		return ((word == null) || (word.getOriginalAddress() == null)) ? false : address.equals(word.getOriginalAddress());
+		return ((word == null) || (word.isEmpty())) ? false : address.equals(word.getOriginalAddress());
 	}
 
 	public Word read(Integer address) {

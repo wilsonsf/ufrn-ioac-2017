@@ -49,11 +49,16 @@ public class Simulator {
 		builder.append("Read " + address + " -> ");
 		if (cache.has(address)){
 			builder.append("HIT ");
-			builder.append("linha" + cache.read(address));
+			builder.append("linha " + cache.read(address).getValue().toString());
 		} else {
 			builder.append("MISS ");
 		}
 
 		return builder.toString();
+	}
+
+	public String write(Integer address, Integer newValue) {
+		
+		return null;
 	}
 }

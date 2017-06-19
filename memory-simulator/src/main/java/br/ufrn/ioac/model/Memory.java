@@ -35,4 +35,16 @@ public class Memory {
 
 		return builder.toString();
 	}
+	
+	public boolean has(Integer address) {
+		Word word = read(address);
+		return ((word == null) || (word.isEmpty())) ? false : address.equals(word.getOriginalAddress());
+	}
+
+	public Word read(Integer address) {
+		int memoryBlockPos = Math.floorMod(address, blockSize);
+
+		Block block = blocks.get(memoryBlockPos);
+		return block.read(address);
+	}
 }
