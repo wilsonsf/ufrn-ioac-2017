@@ -21,22 +21,22 @@ public class App {
 				String[] entries = line.split(" ");
 				String command = entries[0];
 
-				@SuppressWarnings("unused")
-				String address;
+				Integer address;
 
 				if (command.equalsIgnoreCase("show")) {
 					System.out.println(simulator.show());
 				} else if (command.equalsIgnoreCase("read")) {
 					if (entries.length > 1) {
-						System.out.println("Vai ler!");
-						address = entries[1];
+						address = Integer.valueOf(entries[1]);
+						System.out.println(simulator.read(address));
 					} else {
 						System.out.println("Faltou endereço!");
 					}
 				} else if (command.equalsIgnoreCase("write")) {
 					if (entries.length > 1) {
 						System.out.println("Vai gravar!");
-						address = entries[1];
+						address = Integer.valueOf(entries[1]);
+						// simulator.write(address);
 					} else {
 						System.out.println("Faltou endereço!");
 					}
