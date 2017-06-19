@@ -5,22 +5,35 @@ import java.util.List;
 
 public class Memory {
 
-	List<Block> blocks;
-	private int memorySize;
-	private int blockSize;
+	protected List<Block> blocks = new ArrayList<>();
+	protected int blockSize;
+	protected int size;
 
-	public Memory(int memorySize, int blockSize) {
-		this.memorySize = memorySize;
+	public Memory(int size, int blockSize) {
+		this.size = size;
 		this.blockSize = blockSize;
-		blocks = new ArrayList<>();
 	}
 
 	@Deprecated
 	public void initialize() {
-		for (int blockNumber = 0; blockNumber < memorySize; blockNumber++) {
-			Block block = new Block(blockSize);
+		for (int blockNumber = 0; blockNumber < size; blockNumber++) {
+			Block block = new Block(blockSize, blockNumber);
 			block.initialize(blockNumber);
 			blocks.add(block);
 		}
+	}
+
+	public String show() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("Bloco-Endereço-Conteúdo\n");
+		for (Block block : blocks) {
+			for (Word word : block.getWords()) {
+				builder.append(block.getAddress() + "-"
+						+ word.getOriginalAddress() + "-" + word.getValue() + "\n");
+			}
+		}
+
+		return builder.toString();
 	}
 }
