@@ -1,23 +1,23 @@
 package br.ufrn.ioac.model;
 
 public class Word {
-	int originalAddress;
+	Integer originalAddress;
 	Integer value;
 
-	public Word(int address){
+	public Word(Integer address){
 		originalAddress = address;
 	}
 
-	public Word(int address, Integer value) {
+	public Word(Integer address, Integer value) {
 		this(address);
 		this.value = value;
 	}
 
-	public int getOriginalAddress() {
+	public Integer getOriginalAddress() {
 		return originalAddress;
 	}
 
-	public int getValue(){
+	public Integer getValue(){
 		return value.intValue();
 	}
 }
