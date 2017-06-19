@@ -15,3 +15,24 @@ hs_err_pid*i
 bin/
 */bin/
 /bin/
+
+## Maven 
+target/
+
+## eclipse project file
+.settings/
+.classpath
+.project
+
+## ECLIPSE IGNORES
+.metadata
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+

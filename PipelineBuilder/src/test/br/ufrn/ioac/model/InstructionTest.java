@@ -1,41 +1,93 @@
 package br.ufrn.ioac.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class InstructionTest {
 
-	@Test
-	public void shouldCreateInstructionWith1Operand(){
-		new Instruction("$s1");
-	}
-	
-	@Test
-	public void shouldCreateInstructionWith2Operands(){
-		new Instruction("$s1","$s2");
+	private Instruction instruction;
+
+	@Before
+	public void prepareInstruction(){
+		instruction = new Instruction("add","$s0","$s1","$s2");
 	}
 
 	@Test
-	public void shouldCreateInstructionWith3Operands(){
-		new Instruction("$s1","$s2","$s3");
+	public void shouldCreateInstructionWithNameAndOneOperand(){
+		Instruction instruction = new Instruction("j","$s1");
+		assertNotEquals(instruction, null);
 	}
-	
+
+	@Test
+	public void shouldCreateInstructionWithNameAndTwoOperands(){
+		Instruction instruction = new Instruction("addi","$s1","5");
+		assertNotEquals(instruction, null);
+	}
+
+	@Test
+	public void shouldCreateInstructionWithNameAndThreeOperands(){
+		assertEquals(instruction.getInstructionName(), "add");
+		assertNotEquals(instruction, null);
+	}
+
+	@Test
+	public void shouldReturnInstructionName(){
+		assertNotEquals(instruction.getInstructionName(), null);
+		assertNotEquals(instruction.getInstructionName(), "");
+		assertEquals(instruction.getInstructionName(), "add");
+	}
 	@Test
 	public void shouldReturnFirstOperand(){
-		Instruction instruction = new Instruction("$s1","$s2");
-		assertEquals(instruction.getFirstOperand(), "$s1");
+		assertEquals(instruction.getFirstOperand(), "$s0");
 	}
-	
+
 	@Test
 	public void shouldReturnSecondOperand(){
-		Instruction instruction = new Instruction("$s1","$s2");
-		assertEquals(instruction.getSecondOperand(), "$s2");
+		assertEquals(instruction.getSecondOperand(), "$s1");
 	}
-	
+
 	@Test
 	public void shouldReturnThirdOperand(){
-		Instruction instruction = new Instruction("$s1","$s2","$s3");
-		assertEquals(instruction.getThirdOperand(), "$s3");
+		assertEquals(instruction.getThirdOperand(), "$s2");
 	}
+
+	@Test
+	public void shouldHaveStageInformation(){
+		assertNotNull(instruction.currentStage());
+	}
+
+	@Test
+	public void shouldStartWithStageInstructionFind(){
+		assertEquals(instruction.currentStage(), InstructionStage.InstructionFind);
+	}
+
+	@Test
+	public void shouldAdvanceOneStage() throws Exception{
+		instruction.nextStage();
+		assertNotEquals(instruction.currentStage(), InstructionStage.InstructionFind);
+	}
+
+	@Test
+	public void shouldAdvanceOnRightOrder() throws Exception{
+		instruction.nextStage();
+		assertEquals(instruction.currentStage(), InstructionStage.InstructionDecode);
+		instruction.nextStage();
+		assertEquals(instruction.currentStage(), InstructionStage.Execution);
+		instruction.nextStage();
+		assertEquals(instruction.currentStage(), InstructionStage.Memory);
+		instruction.nextStage();
+		assertEquals(instruction.currentStage(), InstructionStage.WriteBack);
+	}
+
+	@Test
+	public void shouldLog() {
+		assertNotEquals(null, instruction.toString());
+		assertNotEquals("", instruction.toString());
+		assertEquals("add $s0, $s1, $s2", instruction.toString());
+	}
+
 }
