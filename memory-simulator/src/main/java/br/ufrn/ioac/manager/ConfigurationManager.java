@@ -8,6 +8,8 @@ import br.ufrn.ioac.exception.ConfigurationFileException;
 import br.ufrn.ioac.interfaces.WritingPolicyI;
 import br.ufrn.ioac.model.Simulator;
 import br.ufrn.ioac.model.SimulatorBuilder;
+import br.ufrn.ioac.strategy.DirectMappingStrategy;
+import br.ufrn.ioac.strategy.DirectMappingSubstitutionPolicy;
 
 public class ConfigurationManager {
 
@@ -27,8 +29,8 @@ public class ConfigurationManager {
 			blockSizeStep();
 			cacheSizeStep();
 			memorySizeStep();
-			mappingStep();
-			substitutionPolicyStep();
+			int mappingType = mappingStep();
+			substitutionPolicyStep(mappingType);
 			writingPolicyStep();
 			System.out.println();
 
@@ -85,7 +87,7 @@ public class ConfigurationManager {
 	 * Numero de conjuntos
 	 * (caso não seja Parcialmente Associativo, ler o valor normalmente mas desconsidere-o)
 	 */
-	private static void mappingStep() throws ConfigurationFileException {
+	private static int mappingStep() throws ConfigurationFileException {
 		int mappingType = scanner.nextInt();
 		if ((mappingType < 1) || (mappingType > 3))
 			throw new ConfigurationFileException("Regra de mapeamento inválida.");
@@ -98,21 +100,26 @@ public class ConfigurationManager {
 		System.out.println("Numero de conjuntos: " + waySize);
 
 		//TODO Mapping and n-way policy
-		builder.withMappingPolicy(null);
+		builder.withMappingPolicy(mappingType == 1 ? new DirectMappingStrategy() : null);
+		builder.withWaySize(waySize);
+		return mappingType;
 	}
 
 	/*
 	 * Política de substituição
 	 * (1 –Aleatório; 2 –FIFO; 3 –LFU; 4 –LRU)
 	 */
-	private static void substitutionPolicyStep() throws ConfigurationFileException {
+	private static void substitutionPolicyStep(int mappingType) throws ConfigurationFileException {
 		int substitutionPolicy = scanner.nextInt();
-		if ((substitutionPolicy < 1) || (substitutionPolicy > 4))
+		if (mappingType == 1) {
+			builder.withSubstitutionPolicy(new DirectMappingSubstitutionPolicy());
+		} else if ((substitutionPolicy < 1) || (substitutionPolicy > 4))
 			throw new ConfigurationFileException("Regra de substituição inválida.");
+		else {
+			System.out.println("Regra de substituição: " + substitutionPolicy);
 
-		System.out.println("Regra de substituição: "+ substitutionPolicy);
-
-		builder.withSubstitutionPolicy(null);
+			builder.withSubstitutionPolicy(null);
+		}
 	}
 
 	/*

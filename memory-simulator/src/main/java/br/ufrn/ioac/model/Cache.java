@@ -9,12 +9,12 @@ public class Cache extends Memory {
 	@Override
 	@Deprecated
 	public void initialize() {
-		for (int blockNumber = 0; blockNumber < size; blockNumber++) {
-			Block block = new Block(blockSize, null);
-			for(int i = 0; i < blockSize; i++) {
+		for (int blockNumber = 0; blockNumber < getSize(); blockNumber++) {
+			Block block = new Block(getBlockSize(), null);
+			for(int i = 0; i < getBlockSize(); i++) {
 				block.getWords().add(new Word(null, null));
 			}
-			blocks.add(block);
+			getBlocks().add(block);
 		}
 	}
 
@@ -23,26 +23,45 @@ public class Cache extends Memory {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Linha-Bloco-Endereço-Conteúdo\n");
-		for (Block block : blocks) {
-			for (Word word : block.getWords()) {
-				builder.append(block.getAddress() + "-" + block.getOriginalBlock().getAddress() + "-"
-						+ word.getOriginalAddress() + "-" + word.getValue() + "\n");
+		for (Block block : getBlocks()) {
+			if (!block.isEmpty()) {
+				for (Word word : block.getWords()) {
+					builder.append(block.getAddress() + "-" + block.getOriginalBlock().getAddress() + "-"
+							+ word.getOriginalAddress() + "-" + word.getValue() + "\n");
+				}
 			}
 		}
 
 		return builder.toString();
 	}
 
+	@Override
 	public boolean has(Integer address) {
 		Word word = read(address);
 		return ((word == null) || (word.isEmpty())) ? false : address.equals(word.getOriginalAddress());
 	}
 
 	public Word read(Integer address) {
-		int memoryBlockPos = Math.floorMod(address, blockSize);
-		int linePos = Math.floorMod(memoryBlockPos, size);
-
-		Block block = blocks.get(linePos);
-		return block.read(address);
+		Block block = findLine(address);
+		return block == null ? null : block.read(address);
 	}
+
+	public Block findLine(Integer wordAddress) {
+		int memoryBlockPos = wordAddress / getBlockSize();// Math.floorMod(address, blockSize);
+		int linePos = memoryBlockPos % getSize();
+
+		if (getBlocks().size() > linePos)
+			return getBlocks().get(linePos);
+		else
+			return null;
+	}
+
+	public Block getLine(Integer lineAddress) {
+		return getBlocks().get(lineAddress % getSize());
+	}
+
+	public void updateLine(Block newLine, Integer position) {
+		getBlocks().set(position, newLine);
+	}
+
 }
