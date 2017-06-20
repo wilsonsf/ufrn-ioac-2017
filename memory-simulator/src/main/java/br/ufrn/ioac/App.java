@@ -33,10 +33,10 @@ public class App {
 						System.out.println("Faltou endereço!");
 					}
 				} else if (command.equalsIgnoreCase("write")) {
-					if (entries.length > 1) {
+					if (entries.length > 2) {
 						System.out.println("Vai gravar!");
 						address = Integer.valueOf(entries[1]);
-						// simulator.write(address);
+						System.out.println(simulator.write(address, Integer.valueOf(entries[2])));
 					} else {
 						System.out.println("Faltou endereço!");
 					}

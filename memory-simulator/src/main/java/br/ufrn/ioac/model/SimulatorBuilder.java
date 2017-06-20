@@ -9,6 +9,7 @@ public class SimulatorBuilder {
 	private Integer blockSize = null;
 	private Integer cacheSize = null;
 	private Integer memorySize = null;
+	private Integer waySize = null;
 
 	//	private Memory memory = null;
 	//	private Cache cache = null;
@@ -57,8 +58,13 @@ public class SimulatorBuilder {
 		return this;
 	}
 
+	public SimulatorBuilder withWaySize(Integer waySize) {
+		this.waySize = waySize;
+		return this;
+	}
+
 	public Simulator build() {
-		return new Simulator(blockSize, cacheSize, memorySize, mapping, substitution, writing);
+		return new Simulator(blockSize, cacheSize, memorySize, waySize, mapping, substitution, writing);
 	}
 
 }

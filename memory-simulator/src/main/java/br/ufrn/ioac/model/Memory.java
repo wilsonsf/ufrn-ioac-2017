@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Memory {
 
-	protected ArrayList<Block> blocks = new ArrayList<>();
-	protected int blockSize;
-	protected int size;
+	private ArrayList<Block> blocks = new ArrayList<>();
+	private int blockSize;
+	private int size;
 
 	public Memory(int size, int blockSize) {
 		this.size = size;
@@ -34,5 +34,25 @@ public class Memory {
 		}
 
 		return builder.toString();
+	}
+
+	public boolean has(Integer wordAaddress) {
+		return (wordAaddress < (blockSize*size)) ? true : false;
+	}
+
+	public Block findBlock(Integer wordAddress) {
+		return blocks.get(wordAddress / blockSize);
+	}
+
+	public ArrayList<Block> getBlocks() {
+		return blocks;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public int getSize() {
+		return size;
 	}
 }
